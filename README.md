@@ -23,22 +23,22 @@ omarchy plugin add https://github.com/tymurbogach/omarchy-matrix-rain-lock --ena
 omarchy restart shell
 ```
 
-Do not enable this plugin while another clone of `omarchy.lock` is
-enabled. Two active lock clones compete for the same lock IPC target. If
-the Enter the Matrix theme pack installed its own lock clone, restore
-Omarchy's own lock through that pack's documented removal procedure
-first. Then enable this plugin, restart the shell if the previous lock
-remains loaded, and check the lock preview before testing a real session
-lock:
+Do not enable this plugin while the Enter the Matrix theme pack is
+active. Both draw a desktop layer named `matrix-rain-wallpaper`, and two
+active lock clones compete for the same lock IPC target. If the theme
+pack installed its own lock clone, restore Omarchy's own lock through
+that pack's documented removal procedure first. Then enable this plugin,
+restart the shell if the previous lock remains loaded, and check the
+lock preview before testing a real session lock:
 
 ```bash
 omarchy-shell lock preview
 ```
 
-The plugin replaces `omarchy.lock` while enabled. It does not install a
-theme, screensaver, widget, hook, boot splash or system file. The desktop
-rain stays on while the plugin is enabled, regardless of the active
-theme.
+The plugin replaces `omarchy.lock` while enabled. Scope is desktop and
+lock only: there is no screensaver overlay, theme, widget, hook, boot
+splash or system file. The desktop rain stays on while the plugin is
+enabled, regardless of the active theme.
 
 ## Usage
 
