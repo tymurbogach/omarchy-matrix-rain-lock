@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "io.github.tymurbogach.matrix-rain-lock",
+  "name": "Matrix Rain and Lock",
+  "version": "0.1.0",
+  "author": "tymurbogach",
+  "license": "MIT",
+  "description": "Digital rain on the desktop and behind the session lock.",
+  "omarchy": {
+    "clonedFrom": "omarchy.lock"
+  },
+  "kinds": ["service"],
+  "keepLoaded": true,
+  "entryPoints": {
+    "service": "Service.qml"
+  }
+}
