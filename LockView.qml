@@ -89,12 +89,28 @@ Item {
 
   Rectangle {
     anchors.fill: parent
-    color: "black"
+    color: Commons.Color.background
 
-    MatrixRain {
+    Image {
+      id: wallpaper
       anchors.fill: parent
-      running: root.loadBackground
-      onRunningChanged: if (running) restart()
+      source: root.loadBackground ? root.fileUrl(root.backgroundPath) : ""
+      fillMode: Image.PreserveAspectCrop
+      asynchronous: true
+      cache: false
+      sourceSize.width: width
+      sourceSize.height: height
+    }
+
+    MultiEffect {
+      anchors.fill: wallpaper
+      source: wallpaper
+      autoPaddingEnabled: false
+      blurEnabled: root.loadBackground && wallpaper.status === Image.Ready
+      blur: 1.0
+      blurMax: 128
+      blurMultiplier: 1.25
+      contrast: -0.08
     }
 
     MouseArea {

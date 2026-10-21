@@ -12,10 +12,6 @@ Item {
   property var shell: null
   property string omarchyPath: ""
 
-  MatrixBackground {
-    active: !root.locked && !root.previewVisible
-  }
-
   readonly property string home: Quickshell.env("HOME")
   readonly property string stateHome: home + "/.local/state"
   readonly property string userName: Quickshell.env("USER") || Quickshell.env("LOGNAME")
