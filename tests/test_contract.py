@@ -19,16 +19,10 @@ class PluginContract(unittest.TestCase):
 
     def test_service_preserves_installed_lock_code(self):
         plugin = (ROOT / "Service.qml").read_text()
-        addition = (
-            '  MatrixBackground {\n'
-            '    active: !root.locked && !root.previewVisible\n'
-            '  }\n\n'
-        )
-        self.assertEqual(plugin.count(addition), 1)
-        self.assertEqual(plugin.replace(addition, "", 1),
-                         (UPSTREAM / "Service.qml").read_text(),
+        self.assertEqual(plugin, (UPSTREAM / "Service.qml").read_text(),
                          "Service.qml drifted from the installed stock lock: "
-                         "port upstream first, then keep only the MatrixBackground block")
+                         "lock-only design keeps Service.qml identical to upstream, "
+                         "rain lives only in LockView.qml")
 
     def test_view_changes_only_the_background(self):
         upstream = (UPSTREAM / "LockView.qml").read_text()
@@ -69,6 +63,16 @@ class PluginContract(unittest.TestCase):
     def test_assets_exist(self):
         for name in ("glyphs.png", "matrix.frag.qsb", "tools/matrix.frag"):
             self.assertGreater((ROOT / name).stat().st_size, 0)
+
+    def test_rain_holds_one_second_before_start(self):
+        rain = (ROOT / "MatrixRain.qml").read_text()
+        self.assertIn("property int startDelayMs: 1000", rain)
+        self.assertIn("visible: !root.delayingStart", rain)
+        self.assertIn("root.running && !root.delayingStart", rain)
+        self.assertIn("Component.onCompleted: if (root.running", rain)
+        for name in ("LockView.qml",):
+            self.assertIn("onRunningChanged: if (running) restart()",
+                          (ROOT / name).read_text(), name)
 
 
 if __name__ == "__main__":
