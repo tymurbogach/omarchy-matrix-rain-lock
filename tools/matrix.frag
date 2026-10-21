@@ -170,7 +170,9 @@ void main() {
     vec2 guv = cellUV;
     if (hash12(vec2(cellId.x * 1.9 + cellId.y * 4.3, tick + 0.5)) > 0.5)
         guv.x = 1.0 - guv.x;
-    float a = texture(atlas, (slot + guv) / vec2(ATLAS_COLS, ATLAS_ROWS)).a;
+    // No glyph shows where the trail is dark, and there bright is exactly 0,
+    // so skipping the fetch leaves the output unchanged and saves bandwidth.
+    float a = bright > 0.0 ? texture(atlas, (slot + guv) / vec2(ATLAS_COLS, ATLAS_ROWS)).a : 0.0;
 
     // Character colour: a random point on the gradient, fixed per cell.
     vec3 rain = mix(colRainA.rgb, colRainB.rgb, hash12(cellId + 3.7));
@@ -193,8 +195,13 @@ void main() {
     // both in cell heights with one coefficient, which left the glow at 76% of
     // peak where the window ended -- and drew a hard grey rectangle around every
     // column instead of a bloom.
-    float glow = 0.0;
-    for (int i = -1; i <= 1; i++) {
+    // The center column was already evaluated above, and column() is a pure
+    // function of its inputs, so its glow term is reused instead of being
+    // computed a second time. Only the neighbours are evaluated here. Exact.
+    float dx0 = 0.5 - cellUV.x;   // in cell WIDTHS
+    float dy0 = head - cellId.y - cellUV.y;
+    float glow = alive * dim * exp(-dx0 * dx0 * 3.0 - dy0 * dy0 * 0.5);
+    for (int i = -1; i <= 1; i += 2) {
         float nh, nt, nd, na;
         column(cellId.x + float(i), span, nh, nt, nd, na);
         float dy = nh - cellId.y - cellUV.y;
