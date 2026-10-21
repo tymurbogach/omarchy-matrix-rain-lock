@@ -18,6 +18,7 @@ import QtQuick
 Item {
   id: root
 
+  // ---- Identity: play state and render tuning ----
   property bool running: true
   // Frames per second at which the shader's clock advances.
   property int fps: 30
@@ -130,6 +131,7 @@ Item {
   // running=false.
   Component.onCompleted: if (root.running && root.startDelayMs > 0) root.restart()
 
+  // ---- Visuals: glyph atlas and shader uniforms ----
   Image {
     id: atlasImage
     source: Qt.resolvedUrl("glyphs.png")
@@ -160,6 +162,7 @@ Item {
     property variant atlas: atlasImage
   }
 
+  // ---- Frame pump: accumulate at display rate, publish at fps ----
   // FrameAnimation and not Timer. With a Timer the clock did advance (proved
   // with logs: elapsed kept rising) but the ShaderEffect never repainted, so
   // the rain came out drawn and frozen. FrameAnimation is wired into the render

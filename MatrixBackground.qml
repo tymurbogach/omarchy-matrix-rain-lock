@@ -2,6 +2,9 @@ import QtQuick
 import Quickshell
 import Quickshell.Wayland
 
+// One wallpaper window per screen on the bottom layer.
+// It takes no input (empty mask, no keyboard focus) and each panel feeds its
+// own screen ratio to its MatrixRain. Hidden panels stay paused through running.
 Item {
   id: root
   property bool active: true
