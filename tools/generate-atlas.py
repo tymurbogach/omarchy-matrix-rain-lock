@@ -123,6 +123,7 @@ def main():
     for path in rows:
         os.remove(path)
 
+    # Fail the regeneration if any glyph touches the cell edge.
     check_margins(output)
     print(f"  glyphs.png  {COLS}x{ROWS} cells of {CW}x{CH}  "
           f"{os.path.getsize(output) // 1024} KB")

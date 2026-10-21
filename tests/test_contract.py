@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check the source boundary against the installed Omarchy 4.0.5 lock."""
+"""Check the source boundary against the installed Omarchy stock lock."""
 
 import json
 import unittest
@@ -26,7 +26,9 @@ class PluginContract(unittest.TestCase):
         )
         self.assertEqual(plugin.count(addition), 1)
         self.assertEqual(plugin.replace(addition, "", 1),
-                         (UPSTREAM / "Service.qml").read_text())
+                         (UPSTREAM / "Service.qml").read_text(),
+                         "Service.qml drifted from the installed stock lock: "
+                         "port upstream first, then keep only the MatrixBackground block")
 
     def test_view_changes_only_the_background(self):
         upstream = (UPSTREAM / "LockView.qml").read_text()
@@ -60,7 +62,9 @@ class PluginContract(unittest.TestCase):
         expected = upstream.replace(original, replacement, 1)
         expected = expected.replace("    color: Commons.Color.background\n",
                                     '    color: "black"\n', 1)
-        self.assertEqual((ROOT / "LockView.qml").read_text(), expected)
+        self.assertEqual((ROOT / "LockView.qml").read_text(), expected,
+                         "LockView.qml drifted from the installed stock lock: "
+                         "port upstream first, then keep only the MatrixRain background")
 
     def test_assets_exist(self):
         for name in ("glyphs.png", "matrix.frag.qsb", "tools/matrix.frag"):

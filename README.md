@@ -6,10 +6,11 @@ theme and its optional pack.
 
 ## Status
 
-This is an initial development build. It passes static checks
-(`omarchy plugin validate`, `qmllint`, contract tests) but has not passed a
-live lock, unlock, multi-monitor, installation or removal test. Do not use
-it to secure a session until those tests pass.
+Live lock, unlock, multi-monitor, installation and removal were verified
+on Omarchy 4.0.6. Static checks (`omarchy plugin validate`, `qmllint`,
+contract tests) pass. Do not treat this as audited: review the lock
+against each supported Omarchy release before you rely on it to secure
+a session.
 
 ## Install
 
@@ -75,7 +76,8 @@ Do not disable or remove a lock while the session is locked.
 
 ## Requirements
 
-- Omarchy 4.0.5. Other versions are not verified.
+- Omarchy 4.0.6. The lock clone tracks the installed stock lock (see
+  `CONTRIBUTING.md`). Other versions are not verified.
 - Quickshell, Qt Quick and the installed Omarchy shell modules.
 - The stock `omarchy.lock` source at
   `/usr/share/omarchy/shell/plugins/lock`, used only at build time to

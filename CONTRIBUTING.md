@@ -20,6 +20,10 @@ derivation minimal:
   The password field, the fingerprint hint and the signals stay identical.
 - `tests/test_contract.py` fails when the derivation drifts. Update the
   expected Omarchy version together with the code, never silently.
+  Do not reorder, regroup or comment `Service.qml` and `LockView.qml`
+  beyond their rain blocks: the test requires byte equality with upstream,
+  so ordering work belongs in `MatrixRain.qml`, `MatrixBackground.qml`,
+  tools and docs.
 
 Do not add privilege escalation, network access, a self-updater, a theme, a screensaver, a
 widget, a hook or a system file. This plugin draws rain on the desktop and
